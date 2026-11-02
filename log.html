@@ -1,0 +1,1335 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Журнал · AI-CRM</title>
+  <link rel="preload" href="static/fonts/onest-400-700-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="static/fonts/oldstd-400-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="static/crm.css">
+  <style>
+    
+    .line { display: grid; grid-template-columns: 96px 150px 1fr; gap: 12px; padding: 9px 0; border-top: 1px solid var(--line); font-size: 13.5px; align-items: baseline; }
+    .line:first-of-type { border-top: 0; }
+    .line time { font-family: var(--mono); font-size: 12px; color: var(--ink-3); }
+    .line .who { color: var(--ink-2); }
+    .line .who.robot { color: var(--ink-3); }
+    .line a { text-decoration: none; color: var(--ink); font-weight: 550; }
+    .line a:hover { color: var(--accent); }
+    .line .what { color: var(--ink-2); }
+    .pick { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+    @media (max-width: 640px) {
+      .line { grid-template-columns: 1fr; gap: 2px; }
+    }
+
+  </style>
+</head>
+<body>
+  
+  <p class="demo-strip">Копия демо для просмотра: клиенты выдуманы, изменения не сохраняются · <a href="https://ai-crm-demo.onrender.com/login" target="_blank" rel="noopener">живая версия</a></p>
+  
+  
+  <header class="top">
+    <div class="top-in">
+      <a class="mark" href="index.html"><svg data-chance="0.9"></svg>AI-CRM</a>
+      <nav class="sections" aria-label="Разделы">
+        <a href="index.html" >Воронка</a>
+        <a href="leads.html" >Заявки</a>
+        <a href="contacts.html" >Клиенты</a>
+        <a href="report.html" >Отчёт</a>
+        <a href="team.html" >Команда</a>
+        <a href="log.html" aria-current="page">Журнал</a>
+      </nav>
+      <form class="ask" method="get" action="/ask" role="search">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="7" cy="7" r="5"/><path d="m11 11 3.5 3.5"/></svg>
+        <input type="search" name="q" maxlength="300" required aria-label="Спросить CRM" placeholder="Спросите CRM: какая реклама окупается?">
+      </form>
+      <div class="me">
+        <span class="conn" id="conn" title="живое обновление"><i aria-hidden="true"></i></span>
+        <i aria-hidden="true">АК</i>
+        <span>Анна Котова</span>
+        <form method="post" action="/logout"><button class="exit">Выйти</button></form>
+      </div>
+    </div>
+  </header>
+  
+
+  
+<main class="wrap">
+  <div class="head-row">
+    <h1>Журнал</h1>
+    <span class="muted">кто, что и когда менял в сделках · последние 130</span>
+  </div>
+
+  <form class="pick" method="get" action="/log">
+    <select name="user_id" onchange="this.form.submit()">
+      <option value="">все сотрудники</option>
+      
+      <option value="1" >Анна Котова</option>
+      
+      <option value="4" >Бухгалтерия</option>
+      
+      <option value="2" >Ирина Соколова</option>
+      
+      <option value="3" >Олег Миронов</option>
+      
+    </select>
+    <select name="kind" onchange="this.form.submit()">
+      <option value="">все действия</option>
+      
+      <option value="created" >заявка принята</option>
+      
+      <option value="marked" >модель разметила</option>
+      
+      <option value="mark_failed" >разметка не удалась</option>
+      
+      <option value="stage" >стадия</option>
+      
+      <option value="assigned" >ответственный</option>
+      
+      <option value="note" >комментарий</option>
+      
+      <option value="due" >срок</option>
+      
+      <option value="amount" >сумма</option>
+      
+      <option value="synced" >передана во внешнюю CRM</option>
+      
+      <option value="sync_failed" >не ушла во внешнюю CRM</option>
+      
+      <option value="file" >файл</option>
+      
+    </select>
+    <noscript><button class="btn">Показать</button></noscript>
+  </form>
+
+  <section class="panel">
+    
+    <div class="line">
+      <time>02.11 09:11</time>
+      <span class="who robot">система</span>
+      <span>
+        <a href="leads-22.html">#22 Светлана Ким</a>
+        <span class="what"> · модель разметила: высокая</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>02.11 09:10</time>
+      <span class="who robot">система</span>
+      <span>
+        <a href="leads-22.html">#22 Светлана Ким</a>
+        <span class="what"> · заявка принята: tilda</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>01.11 07:24</time>
+      <span class="who robot">система</span>
+      <span>
+        <a href="leads-21.html">#21 Павел Егоров</a>
+        <span class="what"> · модель разметила: средняя</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>01.11 07:23</time>
+      <span class="who robot">система</span>
+      <span>
+        <a href="leads-21.html">#21 Павел Егоров</a>
+        <span class="what"> · заявка принята: сайт</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>01.11 04:46</time>
+      <span class="who ">Олег Миронов</span>
+      <span>
+        <a href="leads-20.html">#20 Анастасия Романова</a>
+        <span class="what"> · сумма: 75000</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>31.10 07:46</time>
+      <span class="who ">Олег Миронов</span>
+      <span>
+        <a href="leads-20.html">#20 Анастасия Романова</a>
+        <span class="what"> · срок: напомнить</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>31.10 05:22</time>
+      <span class="who ">Олег Миронов</span>
+      <span>
+        <a href="leads-20.html">#20 Анастасия Романова</a>
+        <span class="what"> · стадия: В работе</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>31.10 04:58</time>
+      <span class="who ">Анна Котова</span>
+      <span>
+        <a href="leads-20.html">#20 Анастасия Романова</a>
+        <span class="what"> · ответственный: Олег Миронов</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>31.10 04:47</time>
+      <span class="who robot">система</span>
+      <span>
+        <a href="leads-20.html">#20 Анастасия Романова</a>
+        <span class="what"> · модель разметила: средняя</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>31.10 04:46</time>
+      <span class="who robot">система</span>
+      <span>
+        <a href="leads-20.html">#20 Анастасия Романова</a>
+        <span class="what"> · заявка принята: сайт</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>30.10 12:00</time>
+      <span class="who robot">система</span>
+      <span>
+        <a href="leads-19.html">#19 Кирилл Новиков</a>
+        <span class="what"> · модель разметила: высокая</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>30.10 11:59</time>
+      <span class="who robot">система</span>
+      <span>
+        <a href="leads-19.html">#19 Кирилл Новиков</a>
+        <span class="what"> · заявка принята: wordpress</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>29.10 10:22</time>
+      <span class="who ">Анна Котова</span>
+      <span>
+        <a href="leads-18.html">#18 Студия йоги «Прана»</a>
+        <span class="what"> · ответственный: Олег Миронов</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>29.10 10:13</time>
+      <span class="who robot">система</span>
+      <span>
+        <a href="leads-18.html">#18 Студия йоги «Прана»</a>
+        <span class="what"> · модель разметила: низкая</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>29.10 10:12</time>
+      <span class="who robot">система</span>
+      <span>
+        <a href="leads-18.html">#18 Студия йоги «Прана»</a>
+        <span class="what"> · заявка принята: tilda</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>28.10 08:26</time>
+      <span class="who robot">система</span>
+      <span>
+        <a href="leads-17.html">#17 Наталья Белова</a>
+        <span class="what"> · модель разметила: средняя</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>28.10 08:25</time>
+      <span class="who robot">система</span>
+      <span>
+        <a href="leads-17.html">#17 Наталья Белова</a>
+        <span class="what"> · заявка принята: сайт</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>28.10 05:48</time>
+      <span class="who ">Ирина Соколова</span>
+      <span>
+        <a href="leads-16.html">#16 Руслан Ахмедов</a>
+        <span class="what"> · сумма: 42000</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>27.10 08:48</time>
+      <span class="who ">Ирина Соколова</span>
+      <span>
+        <a href="leads-16.html">#16 Руслан Ахмедов</a>
+        <span class="what"> · срок: напомнить</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>27.10 06:50</time>
+      <span class="who ">Ирина Соколова</span>
+      <span>
+        <a href="leads-12.html">#12 Ветклиника «Айболит»</a>
+        <span class="what"> · стадия: отложили до весны</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>27.10 06:12</time>
+      <span class="who ">Ирина Соколова</span>
+      <span>
+        <a href="leads-16.html">#16 Руслан Ахмедов</a>
+        <span class="what"> · стадия: В работе</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>27.10 05:56</time>
+      <span class="who ">Анна Котова</span>
+      <span>
+        <a href="leads-16.html">#16 Руслан Ахмедов</a>
+        <span class="what"> · ответственный: Ирина Соколова</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>27.10 05:49</time>
+      <span class="who robot">система</span>
+      <span>
+        <a href="leads-16.html">#16 Руслан Ахмедов</a>
+        <span class="what"> · модель разметила: средняя</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>27.10 05:48</time>
+      <span class="who robot">система</span>
+      <span>
+        <a href="leads-16.html">#16 Руслан Ахмедов</a>
+        <span class="what"> · заявка принята: звонок</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>26.10 11:14</time>
+      <span class="who ">Олег Миронов</span>
+      <span>
+        <a href="leads-14.html">#14 Ольга Сидорова</a>
+        <span class="what"> · стадия: Ждём ответа</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>26.10 04:01</time>
+      <span class="who ">Олег Миронов</span>
+      <span>
+        <a href="leads-15.html">#15 Фотостудия «Свет»</a>
+        <span class="what"> · сумма: 30000</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>25.10 11:14</time>
+      <span class="who ">Олег Миронов</span>
+      <span>
+        <a href="leads-14.html">#14 Ольга Сидорова</a>
+        <span class="what"> · сумма: 65000</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>25.10 07:01</time>
+      <span class="who ">Олег Миронов</span>
+      <span>
+        <a href="leads-15.html">#15 Фотостудия «Свет»</a>
+        <span class="what"> · срок: напомнить</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>25.10 04:22</time>
+      <span class="who ">Олег Миронов</span>
+      <span>
+        <a href="leads-15.html">#15 Фотостудия «Свет»</a>
+        <span class="what"> · стадия: В работе</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>25.10 04:08</time>
+      <span class="who ">Анна Котова</span>
+      <span>
+        <a href="leads-15.html">#15 Фотостудия «Свет»</a>
+        <span class="what"> · ответственный: Олег Миронов</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>25.10 04:02</time>
+      <span class="who robot">система</span>
+      <span>
+        <a href="leads-15.html">#15 Фотостудия «Свет»</a>
+        <span class="what"> · модель разметила: низкая</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>25.10 04:01</time>
+      <span class="who robot">система</span>
+      <span>
+        <a href="leads-15.html">#15 Фотостудия «Свет»</a>
+        <span class="what"> · заявка принята: почта</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>24.10 12:16</time>
+      <span class="who ">Ирина Соколова</span>
+      <span>
+        <a href="leads-10.html">#10 Детский центр «Капитошка»</a>
+        <span class="what"> · стадия: Сделка</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>24.10 11:32</time>
+      <span class="who ">Олег Миронов</span>
+      <span>
+        <a href="leads-14.html">#14 Ольга Сидорова</a>
+        <span class="what"> · стадия: В работе</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>24.10 11:27</time>
+      <span class="who ">Ирина Соколова</span>
+      <span>
+        <a href="leads-13.html">#13 Максим Орлов</a>
+        <span class="what"> · комментарий: Нужен отчёт по кампаниям Директа</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>24.10 11:20</time>
+      <span class="who ">Анна Котова</span>
+      <span>
+        <a href="leads-14.html">#14 Ольга Сидорова</a>
+        <span class="what"> · ответственный: Олег Миронов</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>24.10 11:15</time>
+      <span class="who robot">система</span>
+      <span>
+        <a href="leads-14.html">#14 Ольга Сидорова</a>
+        <span class="what"> · модель разметила: средняя</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>24.10 11:14</time>
+      <span class="who robot">система</span>
+      <span>
+        <a href="leads-14.html">#14 Ольга Сидорова</a>
+        <span class="what"> · заявка принята: сайт</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>24.10 09:27</time>
+      <span class="who ">Ирина Соколова</span>
+      <span>
+        <a href="leads-13.html">#13 Максим Орлов</a>
+        <span class="what"> · сумма: 110000</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>24.10 06:50</time>
+      <span class="who ">Ирина Соколова</span>
+      <span>
+        <a href="leads-12.html">#12 Ветклиника «Айболит»</a>
+        <span class="what"> · стадия: Ждём ответа</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>23.10 12:27</time>
+      <span class="who ">Ирина Соколова</span>
+      <span>
+        <a href="leads-13.html">#13 Максим Орлов</a>
+        <span class="what"> · срок: напомнить</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>23.10 09:42</time>
+      <span class="who ">Ирина Соколова</span>
+      <span>
+        <a href="leads-13.html">#13 Максим Орлов</a>
+        <span class="what"> · стадия: В работе</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>23.10 09:32</time>
+      <span class="who ">Анна Котова</span>
+      <span>
+        <a href="leads-13.html">#13 Максим Орлов</a>
+        <span class="what"> · ответственный: Ирина Соколова</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>23.10 09:28</time>
+      <span class="who robot">система</span>
+      <span>
+        <a href="leads-13.html">#13 Максим Орлов</a>
+        <span class="what"> · модель разметила: высокая</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>23.10 09:27</time>
+      <span class="who robot">система</span>
+      <span>
+        <a href="leads-13.html">#13 Максим Орлов</a>
+        <span class="what"> · заявка принята: tilda</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>23.10 06:50</time>
+      <span class="who ">Ирина Соколова</span>
+      <span>
+        <a href="leads-12.html">#12 Ветклиника «Айболит»</a>
+        <span class="what"> · сумма: 48000</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>22.10 07:02</time>
+      <span class="who ">Ирина Соколова</span>
+      <span>
+        <a href="leads-12.html">#12 Ветклиника «Айболит»</a>
+        <span class="what"> · стадия: В работе</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>22.10 06:54</time>
+      <span class="who ">Анна Котова</span>
+      <span>
+        <a href="leads-12.html">#12 Ветклиника «Айболит»</a>
+        <span class="what"> · ответственный: Ирина Соколова</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>22.10 06:51</time>
+      <span class="who robot">система</span>
+      <span>
+        <a href="leads-12.html">#12 Ветклиника «Айболит»</a>
+        <span class="what"> · модель разметила: средняя</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>22.10 06:50</time>
+      <span class="who robot">система</span>
+      <span>
+        <a href="leads-12.html">#12 Ветклиника «Айболит»</a>
+        <span class="what"> · заявка принята: wordpress</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>21.10 12:16</time>
+      <span class="who ">Ирина Соколова</span>
+      <span>
+        <a href="leads-10.html">#10 Детский центр «Капитошка»</a>
+        <span class="what"> · стадия: Ждём ответа</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>21.10 07:03</time>
+      <span class="who ">Олег Миронов</span>
+      <span>
+        <a href="leads-11.html">#11 Елена Гусева</a>
+        <span class="what"> · комментарий: Показал демо, понравилась доска</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>21.10 05:03</time>
+      <span class="who ">Олег Миронов</span>
+      <span>
+        <a href="leads-11.html">#11 Елена Гусева</a>
+        <span class="what"> · сумма: 52000</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>20.10 12:16</time>
+      <span class="who ">Ирина Соколова</span>
+      <span>
+        <a href="leads-10.html">#10 Детский центр «Капитошка»</a>
+        <span class="what"> · сумма: 38000</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>20.10 10:29</time>
+      <span class="who ">Олег Миронов</span>
+      <span>
+        <a href="leads-9.html">#9 Артём Захаров</a>
+        <span class="what"> · стадия: Ждём ответа</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>20.10 08:03</time>
+      <span class="who ">Олег Миронов</span>
+      <span>
+        <a href="leads-11.html">#11 Елена Гусева</a>
+        <span class="what"> · срок: напомнить</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>20.10 05:45</time>
+      <span class="who ">Олег Миронов</span>
+      <span>
+        <a href="leads-11.html">#11 Елена Гусева</a>
+        <span class="what"> · стадия: В работе</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>20.10 05:17</time>
+      <span class="who ">Анна Котова</span>
+      <span>
+        <a href="leads-11.html">#11 Елена Гусева</a>
+        <span class="what"> · ответственный: Олег Миронов</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>20.10 05:04</time>
+      <span class="who robot">система</span>
+      <span>
+        <a href="leads-11.html">#11 Елена Гусева</a>
+        <span class="what"> · модель разметила: высокая</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>20.10 05:03</time>
+      <span class="who robot">система</span>
+      <span>
+        <a href="leads-11.html">#11 Елена Гусева</a>
+        <span class="what"> · заявка принята: сайт</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>19.10 12:55</time>
+      <span class="who ">Ирина Соколова</span>
+      <span>
+        <a href="leads-10.html">#10 Детский центр «Капитошка»</a>
+        <span class="what"> · стадия: В работе</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>19.10 12:29</time>
+      <span class="who ">Анна Котова</span>
+      <span>
+        <a href="leads-10.html">#10 Детский центр «Капитошка»</a>
+        <span class="what"> · ответственный: Ирина Соколова</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>19.10 12:17</time>
+      <span class="who robot">система</span>
+      <span>
+        <a href="leads-10.html">#10 Детский центр «Капитошка»</a>
+        <span class="what"> · модель разметила: средняя</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>19.10 12:16</time>
+      <span class="who robot">система</span>
+      <span>
+        <a href="leads-10.html">#10 Детский центр «Капитошка»</a>
+        <span class="what"> · заявка принята: звонок</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>19.10 10:29</time>
+      <span class="who ">Олег Миронов</span>
+      <span>
+        <a href="leads-9.html">#9 Артём Захаров</a>
+        <span class="what"> · сумма: 55000</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>18.10 13:29</time>
+      <span class="who ">Олег Миронов</span>
+      <span>
+        <a href="leads-9.html">#9 Артём Захаров</a>
+        <span class="what"> · срок: напомнить</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>18.10 11:05</time>
+      <span class="who ">Олег Миронов</span>
+      <span>
+        <a href="leads-9.html">#9 Артём Захаров</a>
+        <span class="what"> · стадия: В работе</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>18.10 10:41</time>
+      <span class="who ">Анна Котова</span>
+      <span>
+        <a href="leads-9.html">#9 Артём Захаров</a>
+        <span class="what"> · ответственный: Олег Миронов</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>18.10 10:30</time>
+      <span class="who robot">система</span>
+      <span>
+        <a href="leads-9.html">#9 Артём Захаров</a>
+        <span class="what"> · модель разметила: средняя</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>18.10 10:29</time>
+      <span class="who robot">система</span>
+      <span>
+        <a href="leads-9.html">#9 Артём Захаров</a>
+        <span class="what"> · заявка принята: сайт</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>18.10 04:18</time>
+      <span class="who ">Олег Миронов</span>
+      <span>
+        <a href="leads-6.html">#6 Денис Фролов</a>
+        <span class="what"> · стадия: дорого</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>17.10 09:52</time>
+      <span class="who ">Ирина Соколова</span>
+      <span>
+        <a href="leads-8.html">#8 Виктория Ли</a>
+        <span class="what"> · комментарий: Созвонились, готовим схему районов</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>17.10 07:52</time>
+      <span class="who ">Ирина Соколова</span>
+      <span>
+        <a href="leads-8.html">#8 Виктория Ли</a>
+        <span class="what"> · сумма: 95000</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>17.10 06:05</time>
+      <span class="who ">Ирина Соколова</span>
+      <span>
+        <a href="leads-7.html">#7 Кофейня «Зерно»</a>
+        <span class="what"> · стадия: Ждём ответа</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>16.10 11:31</time>
+      <span class="who ">Ирина Соколова</span>
+      <span>
+        <a href="leads-5.html">#5 Марина Ковалёва</a>
+        <span class="what"> · стадия: Сделка</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>16.10 10:52</time>
+      <span class="who ">Ирина Соколова</span>
+      <span>
+        <a href="leads-8.html">#8 Виктория Ли</a>
+        <span class="what"> · срок: напомнить</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>16.10 08:25</time>
+      <span class="who ">Ирина Соколова</span>
+      <span>
+        <a href="leads-8.html">#8 Виктория Ли</a>
+        <span class="what"> · стадия: В работе</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>16.10 08:05</time>
+      <span class="who ">Ирина Соколова</span>
+      <span>
+        <a href="leads-7.html">#7 Кофейня «Зерно»</a>
+        <span class="what"> · комментарий: Отправила КП, ждём решения собственника</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>16.10 08:03</time>
+      <span class="who ">Анна Котова</span>
+      <span>
+        <a href="leads-8.html">#8 Виктория Ли</a>
+        <span class="what"> · ответственный: Ирина Соколова</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>16.10 07:53</time>
+      <span class="who robot">система</span>
+      <span>
+        <a href="leads-8.html">#8 Виктория Ли</a>
+        <span class="what"> · модель разметила: высокая</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>16.10 07:52</time>
+      <span class="who robot">система</span>
+      <span>
+        <a href="leads-8.html">#8 Виктория Ли</a>
+        <span class="what"> · заявка принята: tilda</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>16.10 06:05</time>
+      <span class="who ">Ирина Соколова</span>
+      <span>
+        <a href="leads-7.html">#7 Кофейня «Зерно»</a>
+        <span class="what"> · сумма: 35000</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>15.10 09:05</time>
+      <span class="who ">Ирина Соколова</span>
+      <span>
+        <a href="leads-7.html">#7 Кофейня «Зерно»</a>
+        <span class="what"> · срок: напомнить</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>15.10 06:35</time>
+      <span class="who ">Ирина Соколова</span>
+      <span>
+        <a href="leads-7.html">#7 Кофейня «Зерно»</a>
+        <span class="what"> · стадия: В работе</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>15.10 06:15</time>
+      <span class="who ">Анна Котова</span>
+      <span>
+        <a href="leads-7.html">#7 Кофейня «Зерно»</a>
+        <span class="what"> · ответственный: Ирина Соколова</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>15.10 06:06</time>
+      <span class="who robot">система</span>
+      <span>
+        <a href="leads-7.html">#7 Кофейня «Зерно»</a>
+        <span class="what"> · модель разметила: низкая</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>15.10 06:05</time>
+      <span class="who robot">система</span>
+      <span>
+        <a href="leads-7.html">#7 Кофейня «Зерно»</a>
+        <span class="what"> · заявка принята: почта</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>15.10 04:18</time>
+      <span class="who ">Олег Миронов</span>
+      <span>
+        <a href="leads-6.html">#6 Денис Фролов</a>
+        <span class="what"> · стадия: Ждём ответа</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>14.10 08:54</time>
+      <span class="who ">Олег Миронов</span>
+      <span>
+        <a href="leads-4.html">#4 Игорь Белов</a>
+        <span class="what"> · стадия: Сделка</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>14.10 04:18</time>
+      <span class="who ">Олег Миронов</span>
+      <span>
+        <a href="leads-6.html">#6 Денис Фролов</a>
+        <span class="what"> · сумма: 40000</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>13.10 11:31</time>
+      <span class="who ">Ирина Соколова</span>
+      <span>
+        <a href="leads-5.html">#5 Марина Ковалёва</a>
+        <span class="what"> · стадия: Ждём ответа</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>13.10 04:45</time>
+      <span class="who ">Олег Миронов</span>
+      <span>
+        <a href="leads-6.html">#6 Денис Фролов</a>
+        <span class="what"> · стадия: В работе</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>13.10 04:27</time>
+      <span class="who ">Анна Котова</span>
+      <span>
+        <a href="leads-6.html">#6 Денис Фролов</a>
+        <span class="what"> · ответственный: Олег Миронов</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>13.10 04:19</time>
+      <span class="who robot">система</span>
+      <span>
+        <a href="leads-6.html">#6 Денис Фролов</a>
+        <span class="what"> · модель разметила: средняя</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>13.10 04:18</time>
+      <span class="who robot">система</span>
+      <span>
+        <a href="leads-6.html">#6 Денис Фролов</a>
+        <span class="what"> · заявка принята: сайт</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>12.10 13:31</time>
+      <span class="who ">Ирина Соколова</span>
+      <span>
+        <a href="leads-5.html">#5 Марина Ковалёва</a>
+        <span class="what"> · комментарий: Интеграция сдана, ждём отзыв</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>12.10 11:31</time>
+      <span class="who ">Ирина Соколова</span>
+      <span>
+        <a href="leads-5.html">#5 Марина Ковалёва</a>
+        <span class="what"> · сумма: 70000</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>12.10 07:07</time>
+      <span class="who ">Ирина Соколова</span>
+      <span>
+        <a href="leads-3.html">#3 Студия «Линия»</a>
+        <span class="what"> · стадия: выбрали готовое решение</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>11.10 11:55</time>
+      <span class="who ">Ирина Соколова</span>
+      <span>
+        <a href="leads-5.html">#5 Марина Ковалёва</a>
+        <span class="what"> · стадия: В работе</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>11.10 11:39</time>
+      <span class="who ">Анна Котова</span>
+      <span>
+        <a href="leads-5.html">#5 Марина Ковалёва</a>
+        <span class="what"> · ответственный: Ирина Соколова</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>11.10 11:32</time>
+      <span class="who robot">система</span>
+      <span>
+        <a href="leads-5.html">#5 Марина Ковалёва</a>
+        <span class="what"> · модель разметила: высокая</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>11.10 11:31</time>
+      <span class="who robot">система</span>
+      <span>
+        <a href="leads-5.html">#5 Марина Ковалёва</a>
+        <span class="what"> · заявка принята: wordpress</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>11.10 08:54</time>
+      <span class="who ">Олег Миронов</span>
+      <span>
+        <a href="leads-4.html">#4 Игорь Белов</a>
+        <span class="what"> · стадия: Ждём ответа</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>11.10 05:20</time>
+      <span class="who ">Олег Миронов</span>
+      <span>
+        <a href="leads-2.html">#2 Олег Петров</a>
+        <span class="what"> · стадия: Сделка</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>10.10 08:54</time>
+      <span class="who ">Олег Миронов</span>
+      <span>
+        <a href="leads-4.html">#4 Игорь Белов</a>
+        <span class="what"> · сумма: 45000</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>09.10 12:33</time>
+      <span class="who ">Ирина Соколова</span>
+      <span>
+        <a href="leads-1.html">#1 Полина Смирнова</a>
+        <span class="what"> · стадия: Сделка</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>09.10 09:15</time>
+      <span class="who ">Олег Миронов</span>
+      <span>
+        <a href="leads-4.html">#4 Игорь Белов</a>
+        <span class="what"> · стадия: В работе</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>09.10 09:01</time>
+      <span class="who ">Анна Котова</span>
+      <span>
+        <a href="leads-4.html">#4 Игорь Белов</a>
+        <span class="what"> · ответственный: Олег Миронов</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>09.10 08:55</time>
+      <span class="who robot">система</span>
+      <span>
+        <a href="leads-4.html">#4 Игорь Белов</a>
+        <span class="what"> · модель разметила: низкая</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>09.10 08:54</time>
+      <span class="who robot">система</span>
+      <span>
+        <a href="leads-4.html">#4 Игорь Белов</a>
+        <span class="what"> · заявка принята: сайт</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>09.10 07:07</time>
+      <span class="who ">Ирина Соколова</span>
+      <span>
+        <a href="leads-3.html">#3 Студия «Линия»</a>
+        <span class="what"> · стадия: Ждём ответа</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>08.10 07:07</time>
+      <span class="who ">Ирина Соколова</span>
+      <span>
+        <a href="leads-3.html">#3 Студия «Линия»</a>
+        <span class="what"> · сумма: 60000</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>08.10 05:20</time>
+      <span class="who ">Олег Миронов</span>
+      <span>
+        <a href="leads-2.html">#2 Олег Петров</a>
+        <span class="what"> · стадия: Ждём ответа</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>07.10 07:25</time>
+      <span class="who ">Ирина Соколова</span>
+      <span>
+        <a href="leads-3.html">#3 Студия «Линия»</a>
+        <span class="what"> · стадия: В работе</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>07.10 07:20</time>
+      <span class="who ">Олег Миронов</span>
+      <span>
+        <a href="leads-2.html">#2 Олег Петров</a>
+        <span class="what"> · комментарий: Смету согласовали, оплата 50%</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>07.10 07:13</time>
+      <span class="who ">Анна Котова</span>
+      <span>
+        <a href="leads-3.html">#3 Студия «Линия»</a>
+        <span class="what"> · ответственный: Ирина Соколова</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>07.10 07:08</time>
+      <span class="who robot">система</span>
+      <span>
+        <a href="leads-3.html">#3 Студия «Линия»</a>
+        <span class="what"> · модель разметила: средняя</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>07.10 07:07</time>
+      <span class="who robot">система</span>
+      <span>
+        <a href="leads-3.html">#3 Студия «Линия»</a>
+        <span class="what"> · заявка принята: tilda</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>07.10 05:20</time>
+      <span class="who ">Олег Миронов</span>
+      <span>
+        <a href="leads-2.html">#2 Олег Петров</a>
+        <span class="what"> · сумма: 120000</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>06.10 12:33</time>
+      <span class="who ">Ирина Соколова</span>
+      <span>
+        <a href="leads-1.html">#1 Полина Смирнова</a>
+        <span class="what"> · стадия: Ждём ответа</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>06.10 05:35</time>
+      <span class="who ">Олег Миронов</span>
+      <span>
+        <a href="leads-2.html">#2 Олег Петров</a>
+        <span class="what"> · стадия: В работе</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>06.10 05:25</time>
+      <span class="who ">Анна Котова</span>
+      <span>
+        <a href="leads-2.html">#2 Олег Петров</a>
+        <span class="what"> · ответственный: Олег Миронов</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>06.10 05:21</time>
+      <span class="who robot">система</span>
+      <span>
+        <a href="leads-2.html">#2 Олег Петров</a>
+        <span class="what"> · модель разметила: средняя</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>06.10 05:20</time>
+      <span class="who robot">система</span>
+      <span>
+        <a href="leads-2.html">#2 Олег Петров</a>
+        <span class="what"> · заявка принята: звонок</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>05.10 14:33</time>
+      <span class="who ">Ирина Соколова</span>
+      <span>
+        <a href="leads-1.html">#1 Полина Смирнова</a>
+        <span class="what"> · комментарий: Подписали договор, старт в понедельник</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>05.10 12:33</time>
+      <span class="who ">Ирина Соколова</span>
+      <span>
+        <a href="leads-1.html">#1 Полина Смирнова</a>
+        <span class="what"> · сумма: 85000</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>04.10 12:45</time>
+      <span class="who ">Ирина Соколова</span>
+      <span>
+        <a href="leads-1.html">#1 Полина Смирнова</a>
+        <span class="what"> · стадия: В работе</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>04.10 12:37</time>
+      <span class="who ">Анна Котова</span>
+      <span>
+        <a href="leads-1.html">#1 Полина Смирнова</a>
+        <span class="what"> · ответственный: Ирина Соколова</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>04.10 12:34</time>
+      <span class="who robot">система</span>
+      <span>
+        <a href="leads-1.html">#1 Полина Смирнова</a>
+        <span class="what"> · модель разметила: высокая</span>
+      </span>
+    </div>
+    
+    <div class="line">
+      <time>04.10 12:33</time>
+      <span class="who robot">система</span>
+      <span>
+        <a href="leads-1.html">#1 Полина Смирнова</a>
+        <span class="what"> · заявка принята: сайт</span>
+      </span>
+    </div>
+    
+  </section>
+</main>
+
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="static/rosette.js" defer></script>
+  <script>
+    function say(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('on');
+      clearTimeout(say.timer);
+      say.timer = setTimeout(() => toast.classList.remove('on'), 2400);
+    }
+
+    
+    /* Копия на Pages: сервера за ней нет. Запись не уходит никуда, а человек видит почему. */
+    const readOnly = () => say('Это копия для просмотра — изменения не сохраняются');
+    document.addEventListener('submit', event => { event.preventDefault(); readOnly(); }, true);
+    document.addEventListener('click', event => {
+      if (event.target.closest('a[href="#live"]')) { event.preventDefault(); readOnly(); }
+    });
+    HTMLFormElement.prototype.submit = readOnly;
+    window.fetch = async () => { readOnly(); return new Response(null, { status: 204 }); };
+    window.WebSocket = function () {};
+    
+
+    
+    /* Живое обновление: новая заявка и смена стадии доезжают до всех открытых вкладок.
+       Что делать с событием, решает страница — обработчики складываются сюда. */
+    window.onCrmEvent = [];
+
+    (function connect() {
+      const scheme = location.protocol === 'https:' ? 'wss' : 'ws';
+      const socket = new WebSocket(scheme + '://' + location.host + '/ws/leads');
+      const dot = document.getElementById('conn');
+      let everOpen = false;
+
+      socket.onopen = () => { everOpen = true; dot.className = 'conn live'; };
+      socket.onmessage = event => {
+        const message = JSON.parse(event.data);
+        window.onCrmEvent.forEach(handler => handler(message.event, message.data));
+      };
+      socket.onclose = () => {
+        dot.className = everOpen ? 'conn down' : 'conn';
+        // Растущая пауза: сервер мог уйти на передеплой, и долбить его каждую секунду
+        // всеми открытыми вкладками — худшее, что можно сделать в этот момент.
+        connect.wait = Math.min((connect.wait || 1000) * 1.7, 30000);
+        setTimeout(connect, connect.wait);
+      };
+    })();
+    
+  </script>
+  
+</body>
+</html>

@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Отчёт · AI-CRM</title>
+  <link rel="preload" href="static/fonts/onest-400-700-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="static/fonts/oldstd-400-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="static/crm.css">
+  <style>
+    
+    .head { display: flex; align-items: flex-end; gap: 14px 22px; flex-wrap: wrap; }
+    .head .filters { margin: 0; }
+    .head .muted { align-self: baseline; }
+
+    .kpis { margin-top: 24px; display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; border: 1px solid var(--rule-strong); border-radius: 10px; overflow: hidden; background: var(--sheet); }
+    .kpi { padding: 20px 22px; border-right: 1px solid var(--rule); }
+    .kpi:last-child { border-right: 0; }
+    .kpi span { font-size: 13px; color: var(--ink-3); }
+    .kpi b { display: block; font-family: var(--money); font-size: 34px; font-weight: 400; line-height: 1.1; margin-top: 4px; }
+    .kpi small { display: block; font-size: 12.5px; color: var(--ink-3); margin-top: 4px; }
+    .kpi.lead { background: var(--bar); color: var(--bar-ink); position: relative; overflow: hidden; }
+    .kpi.lead span, .kpi.lead small { color: inherit; opacity: .8; }
+    .kpi.lead b { font-size: 46px; position: relative; }
+    .kpi.lead svg { position: absolute; right: -40px; top: -40px; width: 220px; height: 220px; opacity: .22; }
+
+    .kpi small.delta { color: var(--ink-2); }
+    .plan { margin-top: 22px; }
+    .plan-head { display: flex; align-items: baseline; gap: 10px 18px; flex-wrap: wrap; }
+    .plan-head h2 { margin: 0; }
+    .plan-figures { margin-left: auto; font-size: 14px; color: var(--ink-3); }
+    .plan-figures .money { font-size: 22px; color: var(--ink); }
+    .plan-bar { margin-top: 14px; height: 12px; border-radius: 6px; background: var(--gold-soft); overflow: hidden; }
+    .plan-bar i { display: block; height: 100%; background: var(--gold); border-radius: 6px; }
+    .plan-note { margin-top: 10px; font-size: 13px; color: var(--ink-3); }
+    .plan-form { margin-top: 14px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .plan-form label { margin: 0; }
+    .plan-form input { width: 160px; height: 40px; }
+    .report-grid { margin-top: 22px; display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 22px; align-items: start; }
+    .panel h2 { margin-bottom: 14px; }
+    .funnel { display: grid; gap: 10px; }
+    .funnel-row { display: grid; grid-template-columns: 120px 1fr 56px; align-items: center; gap: 12px; font-size: 14px; }
+    .funnel-row .bar { height: 12px; border-radius: 6px; background: var(--engrave-soft); overflow: hidden; }
+    .funnel-row .bar i { display: block; height: 100%; background: var(--engrave); border-radius: 6px; }
+    .funnel-row.won .bar i { background: var(--gold); }
+    .funnel-row.lost .bar i { background: var(--rule-strong); }
+    .funnel-row .n { text-align: right; color: var(--ink-2); }
+    .scroll-x { overflow-x: auto; }
+    td small { display: block; font-size: 12.5px; color: var(--ink-3); }
+
+    @media (max-width: 760px) {
+      .kpis { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+      .kpi { border-bottom: 1px solid var(--rule); }
+      .kpi:nth-child(2n+1) { border-right: 0; }
+      .kpi.lead, .kpi:last-child { grid-column: 1 / -1; }
+      .kpi b { font-size: 28px; }
+      .report-grid { grid-template-columns: minmax(0, 1fr); }
+      .funnel-row { grid-template-columns: 96px 1fr 40px; }
+    }
+
+  </style>
+</head>
+<body>
+  
+  <p class="demo-strip">Копия демо для просмотра: клиенты выдуманы, изменения не сохраняются · <a href="https://ai-crm-demo.onrender.com/login" target="_blank" rel="noopener">живая версия</a></p>
+  
+  
+  <header class="top">
+    <div class="top-in">
+      <a class="mark" href="index.html"><svg data-chance="0.9"></svg>AI-CRM</a>
+      <nav class="sections" aria-label="Разделы">
+        <a href="index.html" >Воронка</a>
+        <a href="leads.html" >Заявки</a>
+        <a href="contacts.html" >Клиенты</a>
+        <a href="report.html" aria-current="page">Отчёт</a>
+        <a href="team.html" >Команда</a>
+        <a href="log.html" >Журнал</a>
+      </nav>
+      <form class="ask" method="get" action="/ask" role="search">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="7" cy="7" r="5"/><path d="m11 11 3.5 3.5"/></svg>
+        <input type="search" name="q" maxlength="300" required aria-label="Спросить CRM" placeholder="Спросите CRM: какая реклама окупается?">
+      </form>
+      <div class="me">
+        <span class="conn" id="conn" title="живое обновление"><i aria-hidden="true"></i></span>
+        <i aria-hidden="true">АК</i>
+        <span>Анна Котова</span>
+        <form method="post" action="/logout"><button class="exit">Выйти</button></form>
+      </div>
+    </div>
+  </header>
+  
+
+  
+
+<main class="wrap">
+  <div class="head">
+    <h1>Отчёт за 7 дней</h1>
+    
+    <div class="filters" aria-label="Период">
+      
+      <a class="chip-link" href="report-days-7.html" aria-current="true">7 дней</a>
+      
+      <a class="chip-link" href="report-days-30.html" aria-current="false">30 дней</a>
+      
+      <a class="chip-link" href="report-days-90.html" aria-current="false">90 дней</a>
+      
+    </div>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi lead">
+      <svg data-chance="1"></svg>
+      <span>Деньги в работе</span>
+      <b class="money">559 000 ₽</b>
+      <small>сумма незакрытых сделок</small>
+    </div>
+    <div class="kpi"><span>Заявок</span><b class="money">7</b><small class="delta">на 2 больше, чем за прошлые 7 дней</small></div>
+    <div class="kpi"><span>Дошли до сделки</span><b class="money">0%</b><small class="delta">как за прошлые 7 дней</small></div>
+    <div class="kpi">
+      <span>До первого ответа</span>
+      
+      
+      <b class="money">10 мин</b>
+      <small class="delta">на 3 мин медленнее, чем за прошлые 7 дней</small>
+      <small>по 3 заявкам, где человек уже ответил</small>
+      
+    </div>
+  </div>
+
+  
+  <section class="panel plan" aria-labelledby="plan-title">
+    <div class="plan-head">
+      <h2 id="plan-title">План на ноябрь</h2>
+      
+      
+      <p class="plan-figures"><span class="money">0 ₽</span> из <span class="money">300 000 ₽</span> · 0%</p>
+      
+    </div>
+    
+    <div class="plan-bar"><i style="width: 0%"></i></div>
+    <p class="plan-note">Считаются сделки, которые перешли в «Сделку» с первого числа месяца.</p>
+    
+    
+    <form class="plan-form" method="post" action="/report/goal">
+      <label for="goal">План, ₽</label>
+      <input id="goal" name="goal" inputmode="numeric" value="300000" placeholder="например 600000">
+      <button class="btn">Сохранить</button>
+    </form>
+    
+  </section>
+  
+
+  <div class="report-grid">
+    <div>
+      <section class="panel">
+        <h2>Где стоят заявки</h2>
+        
+        <div class="funnel">
+          
+          
+          <div class="funnel-row">
+            <span>Новые</span>
+            <div class="bar"><i style="width: 100.0%"></i></div>
+            <span class="n">5</span>
+          </div>
+          
+          
+          <div class="funnel-row">
+            <span>В работе</span>
+            <div class="bar"><i style="width: 40.0%"></i></div>
+            <span class="n">2</span>
+          </div>
+          
+          
+          <div class="funnel-row">
+            <span>Ждём ответа</span>
+            <div class="bar"><i style="width: 0.0%"></i></div>
+            <span class="n">0</span>
+          </div>
+          
+          
+          <div class="funnel-row won">
+            <span>Сделка</span>
+            <div class="bar"><i style="width: 0.0%"></i></div>
+            <span class="n">0</span>
+          </div>
+          
+          
+          <div class="funnel-row lost">
+            <span>Отказ</span>
+            <div class="bar"><i style="width: 0.0%"></i></div>
+            <span class="n">0</span>
+          </div>
+          
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Рекламные кампании</h2>
+        <div class="scroll-x">
+          <table>
+            <thead>
+              <tr><th>Источник и кампания</th><th class="num">Заявок</th><th class="num">Сделок</th><th class="num">Выручка</th></tr>
+            </thead>
+            <tbody>
+              
+              <tr>
+                <td>google<small>brand</small></td>
+                <td class="num">2</td>
+                <td class="num">0</td>
+                <td class="num">нет сделок</td>
+              </tr>
+              
+              <tr>
+                <td>yandex<small>crm-uslugi</small></td>
+                <td class="num">2</td>
+                <td class="num">0</td>
+                <td class="num">нет сделок</td>
+              </tr>
+              
+              <tr>
+                <td>telegram<small>post-crm</small></td>
+                <td class="num">1</td>
+                <td class="num">0</td>
+                <td class="num">нет сделок</td>
+              </tr>
+              
+              <tr>
+                <td>vk<small>osen-2026</small></td>
+                <td class="num">1</td>
+                <td class="num">0</td>
+                <td class="num">нет сделок</td>
+              </tr>
+              
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <div>
+      <section class="panel">
+        <h2>Откуда приходят</h2>
+        
+        
+        <div class="funnel">
+          
+          <div class="funnel-row">
+            <span>сайт</span>
+            <div class="bar"><i style="width: 100.0%"></i></div>
+            <span class="n">3</span>
+          </div>
+          
+          <div class="funnel-row">
+            <span>tilda</span>
+            <div class="bar"><i style="width: 67.0%"></i></div>
+            <span class="n">2</span>
+          </div>
+          
+          <div class="funnel-row">
+            <span>wordpress</span>
+            <div class="bar"><i style="width: 33.0%"></i></div>
+            <span class="n">1</span>
+          </div>
+          
+          <div class="funnel-row">
+            <span>звонок</span>
+            <div class="bar"><i style="width: 33.0%"></i></div>
+            <span class="n">1</span>
+          </div>
+          
+        </div>
+        
+      </section>
+
+      <section class="panel">
+        <h2>Кто ведёт</h2>
+        <div class="scroll-x">
+          <table>
+            <thead>
+              <tr><th>Сотрудник</th><th class="num">Заявок</th><th class="num">Сумма</th></tr>
+            </thead>
+            <tbody>
+              
+              <tr>
+                <td>не назначен</td>
+                <td class="num">4</td>
+                <td class="num">—</td>
+              </tr>
+              
+              <tr>
+                <td>Олег Миронов</td>
+                <td class="num">2</td>
+                <td class="num"><span class="money">75 000 ₽</span></td>
+              </tr>
+              
+              <tr>
+                <td>Ирина Соколова</td>
+                <td class="num">1</td>
+                <td class="num"><span class="money">42 000 ₽</span></td>
+              </tr>
+              
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </div>
+</main>
+
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="static/rosette.js" defer></script>
+  <script>
+    function say(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('on');
+      clearTimeout(say.timer);
+      say.timer = setTimeout(() => toast.classList.remove('on'), 2400);
+    }
+
+    
+    /* Копия на Pages: сервера за ней нет. Запись не уходит никуда, а человек видит почему. */
+    const readOnly = () => say('Это копия для просмотра — изменения не сохраняются');
+    document.addEventListener('submit', event => { event.preventDefault(); readOnly(); }, true);
+    document.addEventListener('click', event => {
+      if (event.target.closest('a[href="#live"]')) { event.preventDefault(); readOnly(); }
+    });
+    HTMLFormElement.prototype.submit = readOnly;
+    window.fetch = async () => { readOnly(); return new Response(null, { status: 204 }); };
+    window.WebSocket = function () {};
+    
+
+    
+    /* Живое обновление: новая заявка и смена стадии доезжают до всех открытых вкладок.
+       Что делать с событием, решает страница — обработчики складываются сюда. */
+    window.onCrmEvent = [];
+
+    (function connect() {
+      const scheme = location.protocol === 'https:' ? 'wss' : 'ws';
+      const socket = new WebSocket(scheme + '://' + location.host + '/ws/leads');
+      const dot = document.getElementById('conn');
+      let everOpen = false;
+
+      socket.onopen = () => { everOpen = true; dot.className = 'conn live'; };
+      socket.onmessage = event => {
+        const message = JSON.parse(event.data);
+        window.onCrmEvent.forEach(handler => handler(message.event, message.data));
+      };
+      socket.onclose = () => {
+        dot.className = everOpen ? 'conn down' : 'conn';
+        // Растущая пауза: сервер мог уйти на передеплой, и долбить его каждую секунду
+        // всеми открытыми вкладками — худшее, что можно сделать в этот момент.
+        connect.wait = Math.min((connect.wait || 1000) * 1.7, 30000);
+        setTimeout(connect, connect.wait);
+      };
+    })();
+    
+  </script>
+  
+</body>
+</html>

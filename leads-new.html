@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Новая заявка · AI-CRM</title>
+  <link rel="preload" href="static/fonts/onest-400-700-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="static/fonts/oldstd-400-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="static/crm.css">
+  <style>
+    
+    .back { font-size: 13.5px; color: var(--ink-3); text-decoration: none; }
+    .back:hover { color: var(--ink); }
+    .grid { display: grid; gap: 14px; }
+    @media (min-width: 700px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+    .grid input, .grid select { width: 100%; }
+    textarea { min-height: 120px; }
+    .row-end { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+
+  </style>
+</head>
+<body>
+  
+  <p class="demo-strip">Копия демо для просмотра: клиенты выдуманы, изменения не сохраняются · <a href="https://ai-crm-demo.onrender.com/login" target="_blank" rel="noopener">живая версия</a></p>
+  
+  
+  <header class="top">
+    <div class="top-in">
+      <a class="mark" href="index.html"><svg data-chance="0.9"></svg>AI-CRM</a>
+      <nav class="sections" aria-label="Разделы">
+        <a href="index.html" >Воронка</a>
+        <a href="leads.html" aria-current="page">Заявки</a>
+        <a href="contacts.html" >Клиенты</a>
+        <a href="report.html" >Отчёт</a>
+        <a href="team.html" >Команда</a>
+        <a href="log.html" >Журнал</a>
+      </nav>
+      <form class="ask" method="get" action="/ask" role="search">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="7" cy="7" r="5"/><path d="m11 11 3.5 3.5"/></svg>
+        <input type="search" name="q" maxlength="300" required aria-label="Спросить CRM" placeholder="Спросите CRM: какая реклама окупается?">
+      </form>
+      <div class="me">
+        <span class="conn" id="conn" title="живое обновление"><i aria-hidden="true"></i></span>
+        <i aria-hidden="true">АК</i>
+        <span>Анна Котова</span>
+        <form method="post" action="/logout"><button class="exit">Выйти</button></form>
+      </div>
+    </div>
+  </header>
+  
+
+  
+<main class="wrap narrow">
+  <p style="margin-bottom:12px"><a class="back" href="index.html">← к воронке</a></p>
+  <div class="head-row">
+    <h1>Новая заявка</h1>
+    <span class="muted">звонок, письмо, встреча — всё, что пришло не через форму</span>
+  </div>
+
+  <form class="panel grid" method="post" action="/leads">
+    <div class="grid two">
+      <div>
+        <label for="name">Клиент</label>
+        <input id="name" name="name" maxlength="200" placeholder="Полина" autocomplete="off">
+      </div>
+      <div>
+        <label for="contact">Телефон, почта или телеграм</label>
+        <input id="contact" name="contact" maxlength="200" placeholder="+7 999 120-45-67" autocomplete="off">
+      </div>
+    </div>
+
+    <div>
+      <label for="text">Что нужно клиенту</label>
+      <textarea id="text" name="text" required maxlength="5000"
+                placeholder="Позвонила, нужна запись клиентов через бота, салон на 4 мастера, хотят до конца месяца"></textarea>
+    </div>
+
+    <div class="grid two">
+      <div>
+        <label for="source">Откуда</label>
+        <select id="source" name="source">
+          <option>звонок</option><option>почта</option><option>мессенджер</option><option>встреча</option><option>рекомендация</option><option>другое</option>
+        </select>
+      </div>
+      <div>
+        <label for="amount">Сумма, ₽ <span class="muted">— если уже понятна</span></label>
+        <input id="amount" name="amount" inputmode="decimal" placeholder="45000">
+      </div>
+    </div>
+
+    
+    <div>
+      <label for="assignee_id">Ответственный</label>
+      <select id="assignee_id" name="assignee_id">
+        <option value="">не назначен</option>
+        
+        <option value="1" selected>Анна Котова</option>
+        
+        <option value="2" >Ирина Соколова</option>
+        
+        <option value="3" >Олег Миронов</option>
+        
+      </select>
+    </div>
+    
+
+    <div class="row-end">
+      <button class="btn primary">Создать</button>
+      <span class="muted">Модель разметит тему и срочность так же, как у заявок с сайта</span>
+    </div>
+  </form>
+</main>
+
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="static/rosette.js" defer></script>
+  <script>
+    function say(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('on');
+      clearTimeout(say.timer);
+      say.timer = setTimeout(() => toast.classList.remove('on'), 2400);
+    }
+
+    
+    /* Копия на Pages: сервера за ней нет. Запись не уходит никуда, а человек видит почему. */
+    const readOnly = () => say('Это копия для просмотра — изменения не сохраняются');
+    document.addEventListener('submit', event => { event.preventDefault(); readOnly(); }, true);
+    document.addEventListener('click', event => {
+      if (event.target.closest('a[href="#live"]')) { event.preventDefault(); readOnly(); }
+    });
+    HTMLFormElement.prototype.submit = readOnly;
+    window.fetch = async () => { readOnly(); return new Response(null, { status: 204 }); };
+    window.WebSocket = function () {};
+    
+
+    
+    /* Живое обновление: новая заявка и смена стадии доезжают до всех открытых вкладок.
+       Что делать с событием, решает страница — обработчики складываются сюда. */
+    window.onCrmEvent = [];
+
+    (function connect() {
+      const scheme = location.protocol === 'https:' ? 'wss' : 'ws';
+      const socket = new WebSocket(scheme + '://' + location.host + '/ws/leads');
+      const dot = document.getElementById('conn');
+      let everOpen = false;
+
+      socket.onopen = () => { everOpen = true; dot.className = 'conn live'; };
+      socket.onmessage = event => {
+        const message = JSON.parse(event.data);
+        window.onCrmEvent.forEach(handler => handler(message.event, message.data));
+      };
+      socket.onclose = () => {
+        dot.className = everOpen ? 'conn down' : 'conn';
+        // Растущая пауза: сервер мог уйти на передеплой, и долбить его каждую секунду
+        // всеми открытыми вкладками — худшее, что можно сделать в этот момент.
+        connect.wait = Math.min((connect.wait || 1000) * 1.7, 30000);
+        setTimeout(connect, connect.wait);
+      };
+    })();
+    
+  </script>
+  
+</body>
+</html>
