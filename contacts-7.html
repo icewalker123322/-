@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Кофейня «Зерно» · AI-CRM</title>
+  <link rel="preload" href="static/fonts/onest-400-700-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="static/fonts/oldstd-400-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="static/crm.css">
+  <style>
+    
+    .back { font-size: 13.5px; color: var(--ink-3); text-decoration: none; }
+    .back:hover { color: var(--ink); }
+    .history-row {
+      display: block; text-decoration: none;
+      border-top: 1px solid var(--line); padding: 12px 0;
+      transition: color var(--fast);
+    }
+    .history-row:first-of-type { border-top: 0; }
+    .history-row:hover { color: var(--accent); }
+    .history-top { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+    .history-top .when { margin-left: auto; font-family: var(--mono); font-size: 12px; color: var(--ink-3); }
+    .history-text { font-size: 13.5px; color: var(--ink-2); margin-top: 5px; }
+    .stage-tag { font-size: 11.5px; font-weight: 600; padding: 2px 8px; border-radius: var(--r-block); background: var(--accent-soft); color: var(--accent); }
+    .stage-won { background: var(--ok-bg); color: var(--ok); }
+    .stage-lost { background: var(--low-bg); color: var(--low); }
+    .stats { display: flex; gap: 22px; flex-wrap: wrap; margin-top: 10px; }
+    .stat b { display: block; font-size: 20px; font-weight: 640; font-variant-numeric: tabular-nums; }
+    .stat span { font-size: 12.5px; color: var(--ink-3); }
+
+  </style>
+</head>
+<body>
+  
+  <p class="demo-strip">Копия демо для просмотра: клиенты выдуманы, изменения не сохраняются · <a href="https://ai-crm-demo.onrender.com/login" target="_blank" rel="noopener">живая версия</a></p>
+  
+  
+  <header class="top">
+    <div class="top-in">
+      <a class="mark" href="index.html"><svg data-chance="0.9"></svg>AI-CRM</a>
+      <nav class="sections" aria-label="Разделы">
+        <a href="index.html" >Воронка</a>
+        <a href="leads.html" >Заявки</a>
+        <a href="contacts.html" aria-current="page">Клиенты</a>
+        <a href="report.html" >Отчёт</a>
+        <a href="team.html" >Команда</a>
+        <a href="log.html" >Журнал</a>
+      </nav>
+      <form class="ask" method="get" action="/ask" role="search">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="7" cy="7" r="5"/><path d="m11 11 3.5 3.5"/></svg>
+        <input type="search" name="q" maxlength="300" required aria-label="Спросить CRM" placeholder="Спросите CRM: какая реклама окупается?">
+      </form>
+      <div class="me">
+        <span class="conn" id="conn" title="живое обновление"><i aria-hidden="true"></i></span>
+        <i aria-hidden="true">АК</i>
+        <span>Анна Котова</span>
+        <form method="post" action="/logout"><button class="exit">Выйти</button></form>
+      </div>
+    </div>
+  </header>
+  
+
+  
+<main class="wrap narrow">
+  <p style="margin-bottom:12px"><a class="back" href="contacts.html">← ко всем клиентам</a></p>
+
+  <section class="panel">
+    <h1>Кофейня «Зерно»</h1>
+    <p class="muted" style="margin-top:4px">zerno.coffee@mail.ru</p>
+
+    
+    
+    <div class="stats">
+      <div class="stat"><b>1</b><span>обращений</span></div>
+      <div class="stat"><b>0</b><span>сделок</span></div>
+      
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2 style="margin-bottom:10px">Заметка о клиенте</h2>
+    
+    <form method="post" action="/contacts/7/note">
+      <textarea name="note" placeholder="Что важно помнить перед следующим разговором"></textarea>
+      <button class="btn primary" style="margin-top:8px">Сохранить</button>
+    </form>
+    
+  </section>
+
+  <section class="panel">
+    <h2 style="margin-bottom:6px">Все обращения</h2>
+    
+    <a class="history-row" href="leads-7.html">
+      <div class="history-top">
+        <span class="stage-tag ">
+          Ждём ответа
+        </span>
+        <span class="tag">отзывы гостей</span>
+        <span class="money">35 000 ₽</span>
+        <span class="when">15.10.2026</span>
+      </div>
+      <p class="history-text">Сеть из 3 кофеен, хотим собирать отзывы гостей и отвечать на них из одного места.</p>
+    </a>
+    
+  </section>
+</main>
+
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="static/rosette.js" defer></script>
+  <script>
+    function say(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('on');
+      clearTimeout(say.timer);
+      say.timer = setTimeout(() => toast.classList.remove('on'), 2400);
+    }
+
+    
+    /* Копия на Pages: сервера за ней нет. Запись не уходит никуда, а человек видит почему. */
+    const readOnly = () => say('Это копия для просмотра — изменения не сохраняются');
+    document.addEventListener('submit', event => { event.preventDefault(); readOnly(); }, true);
+    document.addEventListener('click', event => {
+      if (event.target.closest('a[href="#live"]')) { event.preventDefault(); readOnly(); }
+    });
+    HTMLFormElement.prototype.submit = readOnly;
+    window.fetch = async () => { readOnly(); return new Response(null, { status: 204 }); };
+    window.WebSocket = function () {};
+    
+
+    
+    /* Живое обновление: новая заявка и смена стадии доезжают до всех открытых вкладок.
+       Что делать с событием, решает страница — обработчики складываются сюда. */
+    window.onCrmEvent = [];
+
+    (function connect() {
+      const scheme = location.protocol === 'https:' ? 'wss' : 'ws';
+      const socket = new WebSocket(scheme + '://' + location.host + '/ws/leads');
+      const dot = document.getElementById('conn');
+      let everOpen = false;
+
+      socket.onopen = () => { everOpen = true; dot.className = 'conn live'; };
+      socket.onmessage = event => {
+        const message = JSON.parse(event.data);
+        window.onCrmEvent.forEach(handler => handler(message.event, message.data));
+      };
+      socket.onclose = () => {
+        dot.className = everOpen ? 'conn down' : 'conn';
+        // Растущая пауза: сервер мог уйти на передеплой, и долбить его каждую секунду
+        // всеми открытыми вкладками — худшее, что можно сделать в этот момент.
+        connect.wait = Math.min((connect.wait || 1000) * 1.7, 30000);
+        setTimeout(connect, connect.wait);
+      };
+    })();
+    
+  </script>
+  
+</body>
+</html>

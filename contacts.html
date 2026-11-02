@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Клиенты · AI-CRM</title>
+  <link rel="preload" href="static/fonts/onest-400-700-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="static/fonts/oldstd-400-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="static/crm.css">
+  <style>
+    
+    .people { display: grid; gap: 8px; }
+    @media (min-width: 760px) { .people { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); } }
+    .person {
+      display: block; text-decoration: none;
+      background: var(--surface); border: 1px solid var(--line);
+      border-radius: var(--r-card); padding: 14px 16px;
+      transition: border-color var(--fast);
+    }
+    .person:hover { border-color: var(--line-strong); }
+    .person b { font-size: 15px; }
+    .person .c { font-family: var(--mono); font-size: 12.5px; color: var(--ink-3); display: block; margin-top: 3px; }
+    .person .n { font-size: 13px; color: var(--ink-2); margin-top: 8px; }
+    .search { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+    .search input { flex: 1 1 260px; }
+
+  </style>
+</head>
+<body>
+  
+  <p class="demo-strip">Копия демо для просмотра: клиенты выдуманы, изменения не сохраняются · <a href="https://ai-crm-demo.onrender.com/login" target="_blank" rel="noopener">живая версия</a></p>
+  
+  
+  <header class="top">
+    <div class="top-in">
+      <a class="mark" href="index.html"><svg data-chance="0.9"></svg>AI-CRM</a>
+      <nav class="sections" aria-label="Разделы">
+        <a href="index.html" >Воронка</a>
+        <a href="leads.html" >Заявки</a>
+        <a href="contacts.html" aria-current="page">Клиенты</a>
+        <a href="report.html" >Отчёт</a>
+        <a href="team.html" >Команда</a>
+        <a href="log.html" >Журнал</a>
+      </nav>
+      <form class="ask" method="get" action="/ask" role="search">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="7" cy="7" r="5"/><path d="m11 11 3.5 3.5"/></svg>
+        <input type="search" name="q" maxlength="300" required aria-label="Спросить CRM" placeholder="Спросите CRM: какая реклама окупается?">
+      </form>
+      <div class="me">
+        <span class="conn" id="conn" title="живое обновление"><i aria-hidden="true"></i></span>
+        <i aria-hidden="true">АК</i>
+        <span>Анна Котова</span>
+        <form method="post" action="/logout"><button class="exit">Выйти</button></form>
+      </div>
+    </div>
+  </header>
+  
+
+  
+<main class="wrap">
+  <div class="head-row">
+    <h1>Клиенты</h1>
+    <span class="muted">22 человек</span>
+  </div>
+
+  <form class="search" method="get" action="/contacts">
+    <input type="search" name="search" value="" placeholder="Имя или контакт">
+    <button class="btn">Найти</button>
+    
+  </form>
+
+  <div class="people">
+    
+    <a class="person" href="contacts-22.html">
+      <b>Светлана Ким</b>
+      <span class="c">kim.sv@gmail.com</span>
+      <p class="n">
+        1 обращение
+      </p>
+    </a>
+    
+    <a class="person" href="contacts-21.html">
+      <b>Павел Егоров</b>
+      <span class="c">@pavel_cars</span>
+      <p class="n">
+        1 обращение
+      </p>
+    </a>
+    
+    <a class="person" href="contacts-20.html">
+      <b>Анастасия Романова</b>
+      <span class="c">+7 985 777-21-43</span>
+      <p class="n">
+        1 обращение
+      </p>
+    </a>
+    
+    <a class="person" href="contacts-19.html">
+      <b>Кирилл Новиков</b>
+      <span class="c">@kirill_shop</span>
+      <p class="n">
+        1 обращение
+      </p>
+    </a>
+    
+    <a class="person" href="contacts-18.html">
+      <b>Студия йоги «Прана»</b>
+      <span class="c">+7 926 300-80-80</span>
+      <p class="n">
+        1 обращение
+      </p>
+    </a>
+    
+    <a class="person" href="contacts-17.html">
+      <b>Наталья Белова</b>
+      <span class="c">@belova_buh</span>
+      <p class="n">
+        1 обращение
+      </p>
+    </a>
+    
+    <a class="person" href="contacts-16.html">
+      <b>Руслан Ахмедов</b>
+      <span class="c">+7 917 404-12-90</span>
+      <p class="n">
+        1 обращение
+      </p>
+    </a>
+    
+    <a class="person" href="contacts-15.html">
+      <b>Фотостудия «Свет»</b>
+      <span class="c">svet.photo@yandex.ru</span>
+      <p class="n">
+        1 обращение
+      </p>
+    </a>
+    
+    <a class="person" href="contacts-14.html">
+      <b>Ольга Сидорова</b>
+      <span class="c">@olga_tours</span>
+      <p class="n">
+        1 обращение
+      </p>
+    </a>
+    
+    <a class="person" href="contacts-13.html">
+      <b>Максим Орлов</b>
+      <span class="c">+7 999 120-45-67</span>
+      <p class="n">
+        1 обращение
+      </p>
+    </a>
+    
+    <a class="person" href="contacts-12.html">
+      <b>Ветклиника «Айболит»</b>
+      <span class="c">info@aibolit-vet.ru</span>
+      <p class="n">
+        1 обращение
+      </p>
+    </a>
+    
+    <a class="person" href="contacts-11.html">
+      <b>Елена Гусева</b>
+      <span class="c">@guseva_flowers</span>
+      <p class="n">
+        1 обращение
+      </p>
+    </a>
+    
+    <a class="person" href="contacts-10.html">
+      <b>Детский центр «Капитошка»</b>
+      <span class="c">+7 912 340-55-66</span>
+      <p class="n">
+        1 обращение · 1 со сделкой
+      </p>
+    </a>
+    
+    <a class="person" href="contacts-9.html">
+      <b>Артём Захаров</b>
+      <span class="c">@zakharov_law</span>
+      <p class="n">
+        1 обращение
+      </p>
+    </a>
+    
+    <a class="person" href="contacts-8.html">
+      <b>Виктория Ли</b>
+      <span class="c">+7 925 101-77-31</span>
+      <p class="n">
+        1 обращение
+      </p>
+    </a>
+    
+    <a class="person" href="contacts-7.html">
+      <b>Кофейня «Зерно»</b>
+      <span class="c">zerno.coffee@mail.ru</span>
+      <p class="n">
+        1 обращение
+      </p>
+    </a>
+    
+    <a class="person" href="contacts-6.html">
+      <b>Денис Фролов</b>
+      <span class="c">@den_frolov</span>
+      <p class="n">
+        1 обращение
+      </p>
+    </a>
+    
+    <a class="person" href="contacts-5.html">
+      <b>Марина Ковалёва</b>
+      <span class="c">+7 903 555-10-20</span>
+      <p class="n">
+        1 обращение · 1 со сделкой
+      </p>
+    </a>
+    
+    <a class="person" href="contacts-4.html">
+      <b>Игорь Белов</b>
+      <span class="c">@igor_fit</span>
+      <p class="n">
+        1 обращение · 1 со сделкой
+      </p>
+    </a>
+    
+    <a class="person" href="contacts-3.html">
+      <b>Студия «Линия»</b>
+      <span class="c">anna@studio-line.ru</span>
+      <p class="n">
+        1 обращение
+      </p>
+    </a>
+    
+    <a class="person" href="contacts-2.html">
+      <b>Олег Петров</b>
+      <span class="c">+7 916 220-14-88</span>
+      <p class="n">
+        1 обращение · 1 со сделкой
+      </p>
+    </a>
+    
+    <a class="person" href="contacts-1.html">
+      <b>Полина Смирнова</b>
+      <span class="c">@polina_beauty</span>
+      <p class="n">
+        1 обращение · 1 со сделкой
+      </p>
+    </a>
+    
+  </div>
+</main>
+
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="static/rosette.js" defer></script>
+  <script>
+    function say(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('on');
+      clearTimeout(say.timer);
+      say.timer = setTimeout(() => toast.classList.remove('on'), 2400);
+    }
+
+    
+    /* Копия на Pages: сервера за ней нет. Запись не уходит никуда, а человек видит почему. */
+    const readOnly = () => say('Это копия для просмотра — изменения не сохраняются');
+    document.addEventListener('submit', event => { event.preventDefault(); readOnly(); }, true);
+    document.addEventListener('click', event => {
+      if (event.target.closest('a[href="#live"]')) { event.preventDefault(); readOnly(); }
+    });
+    HTMLFormElement.prototype.submit = readOnly;
+    window.fetch = async () => { readOnly(); return new Response(null, { status: 204 }); };
+    window.WebSocket = function () {};
+    
+
+    
+    /* Живое обновление: новая заявка и смена стадии доезжают до всех открытых вкладок.
+       Что делать с событием, решает страница — обработчики складываются сюда. */
+    window.onCrmEvent = [];
+
+    (function connect() {
+      const scheme = location.protocol === 'https:' ? 'wss' : 'ws';
+      const socket = new WebSocket(scheme + '://' + location.host + '/ws/leads');
+      const dot = document.getElementById('conn');
+      let everOpen = false;
+
+      socket.onopen = () => { everOpen = true; dot.className = 'conn live'; };
+      socket.onmessage = event => {
+        const message = JSON.parse(event.data);
+        window.onCrmEvent.forEach(handler => handler(message.event, message.data));
+      };
+      socket.onclose = () => {
+        dot.className = everOpen ? 'conn down' : 'conn';
+        // Растущая пауза: сервер мог уйти на передеплой, и долбить его каждую секунду
+        // всеми открытыми вкладками — худшее, что можно сделать в этот момент.
+        connect.wait = Math.min((connect.wait || 1000) * 1.7, 30000);
+        setTimeout(connect, connect.wait);
+      };
+    })();
+    
+  </script>
+  
+</body>
+</html>
